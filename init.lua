@@ -1,8 +1,20 @@
+-- Neovim Configuration
+-- Main entry point for the Neovim configuration
+
+-- ============================================================================
+-- LEADER KEY SETUP
+-- ============================================================================
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- ============================================================================
+-- LAZY.NVIM SETUP
+-- ============================================================================
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+-- Install lazy.nvim if not present
 if not vim.uv.fs_stat(lazypath) then
     local repo = "https://github.com/folke/lazy.nvim.git"
     vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
@@ -10,17 +22,21 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Setup lazy.nvim
+-- ============================================================================
+-- PLUGIN MANAGER CONFIGURATION
+-- ============================================================================
+
 local lazy = require("lazy")
 lazy.setup({
     spec = {
         { import = "plugins" },
     },
     defaults = { lazy = true },
-    install = { colorscheme = { "onedark" } },
+    install = { colorscheme = { "retrobox" } },
     performance = {
         rtp = {
             disabled_plugins = {
+                -- Disable built-in plugins for better performance
                 "2html_plugin",
                 "tohtml",
                 "getscript",
@@ -53,8 +69,11 @@ lazy.setup({
     },
 })
 
-require("keymaps")
-require("options")
-vim.schedule(function()
-    require "mappings"
-end)
+-- ============================================================================
+-- CONFIGURATION LOADING
+-- ============================================================================
+
+-- Load core configuration
+require("options")        -- Basic Neovim options
+require("keymaps")        -- Key mappings
+require("autocommands")   -- Autocommands

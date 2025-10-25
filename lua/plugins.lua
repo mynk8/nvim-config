@@ -1,7 +1,71 @@
+-- Plugin configuration
+-- This file contains all plugin specifications and their configurations
+
 return {
-    "nvim-lua/plenary.nvim",
+    -- ============================================================================
+    -- DEPENDENCIES
+    -- ============================================================================
+    
+    "nvim-lua/plenary.nvim", -- Required by many plugins
+
+    -- ============================================================================
+    -- COLORSCHEMES
+    -- ============================================================================
+    
     "ellisonleao/gruvbox.nvim",
-	"nyoom-engineering/oxocarbon.nvim",
+    "nyoom-engineering/oxocarbon.nvim",
+
+    -- ============================================================================
+    -- LSP & COMPLETION
+    -- ============================================================================
+    
+    {
+        "neovim/nvim-lspconfig",
+        event = "User FilePost",
+        config = function()
+            require("lspconf")
+        end,
+    },
+    {
+        "saghen/blink.cmp",
+        version = "1.*",
+        event = "InsertEnter",
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+            {
+                "L3MON4D3/LuaSnip",
+                config = function()
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end,
+            },
+            { "windwp/nvim-autopairs", opts = {} },
+        },
+        opts = function()
+            return require("blinkcmp")
+        end,
+    },
+
+    -- ============================================================================
+    -- TREESITTER
+    -- ============================================================================
+    
+    {
+        "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPost", "BufNewFile" },
+        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+        build = ":TSUpdate",
+        opts = function()
+            return require("treesitter")
+        end,
+        config = function(_, opts)
+            require("nvim-treesitter.configs").setup(opts)
+        end,
+    },
+
+    -- ============================================================================
+    -- FILE EXPLORER
+    -- ============================================================================
+    
     {
         "nvim-tree/nvim-tree.lua",
         cmd = { "NvimTreeToggle", "NvimTreeFocus" },
@@ -10,12 +74,14 @@ return {
         end,
     },
     {
-        "neovim/nvim-lspconfig",
-        event = "User FilePost",
-        config = function()
-            require "lspconf"
-        end,
+        "nvim-tree/nvim-web-devicons",
+        lazy = true,
     },
+
+    -- ============================================================================
+    -- TELESCOPE
+    -- ============================================================================
+    
     {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -35,41 +101,11 @@ return {
             require("telescope").setup(opts)
         end,
     },
-    {
-        "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPost", "BufNewFile" },
-        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-        build = ":TSUpdate",
-        opts = function()
-            return require("treesitter")
-        end,
-        config = function(_, opts)
-            require("nvim-treesitter.configs").setup(opts)
-        end,
-    },
-    {
-        "nvim-tree/nvim-web-devicons",
-        lazy = true,
-    },
-    {
-        "stevearc/conform.nvim",
-        opts = {
-            formatters_by_ft = { lua = { "stylua" } },
-        },
-    },
-    {
-        "lewis6991/gitsigns.nvim",
-        event = "User FilePost",
-        opts = {
-            signs = {
-                add = { text = "+" },
-                change = { text = "~" },
-                delete = { text = "_" },
-                topdelete = { text = "‾" },
-                changedelete = { text = "~" },
-            },
-        },
-    },
+
+    -- ============================================================================
+    -- DIAGNOSTICS & TROUBLESHOOTING
+    -- ============================================================================
+    
     {
         "folke/trouble.nvim",
         opts = {
@@ -124,6 +160,48 @@ return {
             },
         }
     },
+
+    -- ============================================================================
+    -- FORMATTING
+    -- ============================================================================
+    
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = { 
+                lua = { "stylua" },
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                json = { "prettier" },
+                html = { "prettier" },
+                css = { "prettier" },
+                markdown = { "prettier" },
+            },
+        },
+    },
+
+    -- ============================================================================
+    -- GIT
+    -- ============================================================================
+    
+    {
+        "lewis6991/gitsigns.nvim",
+        event = "User FilePost",
+        opts = {
+            signs = {
+                add = { text = "+" },
+                change = { text = "~" },
+                delete = { text = "_" },
+                topdelete = { text = "‾" },
+                changedelete = { text = "~" },
+            },
+        },
+    },
+
+    -- ============================================================================
+    -- COMMENTS
+    -- ============================================================================
+    
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
@@ -131,35 +209,17 @@ return {
             require("Comment").setup()
         end,
     },
+
+    -- ============================================================================
+    -- STATUSLINE
+    -- ============================================================================
+    
     {
         "echasnovski/mini.statusline",
-		lazy = false,
+        lazy = false,
         opts = {},
         config = function()
             require('mini.statusline').setup()
         end,
     },
-    {
-        "saghen/blink.cmp",
-        version = "1.*",
-        event = "InsertEnter",
-        dependencies = {
-            "rafamadriz/friendly-snippets",
-
-            -- snippets engine
-            {
-                "L3MON4D3/LuaSnip",
-                config = function()
-                    require("luasnip.loaders.from_vscode").lazy_load()
-                end,
-            },
-
-            -- autopairs , autocompletes ()[] etc
-            { "windwp/nvim-autopairs", opts = {} },
-        },
-        opts = function()
-            return require "blinkcmp"
-        end,
-    },
-
 }
