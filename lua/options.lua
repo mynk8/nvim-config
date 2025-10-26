@@ -9,6 +9,7 @@ vim.o.cursorline = true                        -- Highlight current line
 vim.o.number = true                            -- Show line numbers
 vim.o.relativenumber = true                    -- Show relative line numbers
 vim.o.signcolumn = "yes"                       -- Always show sign column
+vim.o.clipboard = "unnamedplus"
 
 -- Special characters for list mode
 vim.o.list = true -- Show special characters

@@ -139,6 +139,7 @@ end, { desc = "Format file" })
 -- ============================================================================
 
 -- These will be set up in the LSP configuration
+map("n", "<leader>la", ":doautocmd User FilePost<CR>", { desc = "Activate LSP" })
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Go to definition" })
 map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to declaration" })
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { desc = "References" })
@@ -150,3 +151,6 @@ map("n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open
 map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous diagnostic" })
 map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = "Next diagnostic" })
 map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
+map("n", "<leader>rn", function()
+	return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
