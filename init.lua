@@ -32,7 +32,7 @@ lazy.setup({
         { import = "plugins" },
     },
     defaults = { lazy = true },
-    install = { colorscheme = { "retrobox" } },
+    install = { colorscheme = { "oxocarbon" } },
     performance = {
         rtp = {
             disabled_plugins = {

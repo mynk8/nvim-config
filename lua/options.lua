@@ -32,4 +32,4 @@ vim.o.updatetime = 200                 -- Save swap file with 200ms debouncing
 vim.o.confirm = true                   -- Show dialog for unsaved files before quit
 vim.opt.diffopt:append("linematch:60") -- Second stage diff to align lines
 vim.g.netrw_banner = 0                 -- Disable netrw banner
-vim.cmd("colorscheme retrobox")
+vim.cmd("colorscheme kanagawa-dragon")
